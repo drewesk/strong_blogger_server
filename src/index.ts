@@ -25,4 +25,4 @@ app.use(passport.session());
 app.get('/', (_, res) => res.send('OAuth server is live'));
 app.get('/me', (req, res) => res.json(req.user || null));
 
-app.listen(4000, () => console.log('✅ Server running on http://localhost:4000'));
+app.listen(3000, () => console.log('✅ Server running on http://localhost:3000'));
