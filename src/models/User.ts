@@ -1,7 +1,7 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema, Model } from "mongoose";
 
 // Define a User interface that extends the Mongoose Document interface
-interface User extends Document {
+export interface User extends Document {
   googleId: string;
   displayName: string;
   email: string;
@@ -21,6 +21,6 @@ const userSchema = new Schema<User>({
 });
 
 // Create the User model
-const UserModel = mongoose.model<User>("User", userSchema);
+const UserModel: Model<User> = mongoose.model<User>("User", userSchema);
 
 export default UserModel;
