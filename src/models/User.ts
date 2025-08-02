@@ -17,7 +17,7 @@ const userSchema = new Schema<User>({
   email: { type: String, required: true },
   photo: { type: String },
   accessToken: { type: String, required: true },
-  refreshToken: { type: String, required: true },
+  refreshToken: { type: String, required: false },
 });
 
 // Create the User model

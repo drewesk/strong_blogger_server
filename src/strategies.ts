@@ -17,6 +17,8 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       callbackURL: "http://localhost:3000/auth/google/callback",
+      accessType: "offline", // ✅ get refreshToken
+      prompt: "consent", // ✅ force re-consent to always return it
     },
 
     (
@@ -31,16 +33,18 @@ passport.use(
             return done(null, user);
           }
 
+          const email = profile.emails?.[0]?.value || "";
+          const photo = profile.photos?.[0]?.value || "";
+
           const newUser = new UserModel({
             googleId: profile.id,
             displayName: profile.displayName,
-            email: profile.emails[0]?.value,
-            photo: profile.photos[0]?.value,
-            // come back and look at other options for these tokens if needed
-            // or to make more secure
-            accessToken,
-            refreshToken,
+            email,
+            photo,
+            accessToken: accessToken || "",
+            ...(refreshToken && { refreshToken }), // ✅ only include if exists
           });
+          console.log("🔍 Google profile:", profile);
           return newUser.save();
         })
         .then((user) => done(null, user))
@@ -58,4 +62,3 @@ passport.deserializeUser((id, done) => {
     .then((user) => done(null, user))
     .catch((err) => done(err));
 });
-

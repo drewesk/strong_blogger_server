@@ -3,6 +3,10 @@ import session from "express-session";
 import cors from "cors";
 import passport from "passport";
 import dotenv from "dotenv";
+
+import { connectDB } from "./db";
+connectDB();
+
 import "./strategies";
 
 const PORT = process.env.PORT || 3000;
@@ -47,7 +51,7 @@ app.get("/me", (req, res) => {
 // Google OAuth routes
 app.get(
   "/auth/google",
-  passport.authenticate("google", { scope: ["profile"] })
+  passport.authenticate("google", { scope: ["profile", "email"] })
 );
 app.get(
   "/auth/google/callback",
