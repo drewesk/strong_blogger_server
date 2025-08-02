@@ -48,3 +48,14 @@ passport.use(
     }
   )
 );
+
+passport.serializeUser((user: any, done) => {
+  done(null, user.id); // just use MongoDB _id
+});
+
+passport.deserializeUser((id, done) => {
+  UserModel.findById(id)
+    .then((user) => done(null, user))
+    .catch((err) => done(err));
+});
+

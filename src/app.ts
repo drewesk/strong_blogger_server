@@ -23,8 +23,14 @@ app.use(
     secret: process.env.SESSION_SECRET || "dev_secret",
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: false, // change to true in production with HTTPS
+      sameSite: "lax", // or 'none' if using HTTPS + different domain
+    },
   })
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -47,7 +53,7 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (_req, res) => {
-    res.redirect("http://localhost:5173");
+    res.redirect("http://localhost:5173/auth/success");
   }
 );
 
