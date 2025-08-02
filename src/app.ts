@@ -31,6 +31,7 @@ app.use(
       httpOnly: true,
       secure: false, // change to true in production with HTTPS
       sameSite: "lax", // or 'none' if using HTTPS + different domain
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
     },
   })
 );
