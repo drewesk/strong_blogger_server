@@ -9,6 +9,12 @@ connectDB();
 
 import "./strategies";
 
+// Import RESTful API routers for posts, users and messages.  These routers
+// implement CRUD endpoints following REST conventions.
+import postsRouter from "./routes/posts";
+import usersRouter from "./routes/users";
+import messagesRouter from "./routes/messages";
+
 const PORT = process.env.PORT || 3000;
 
 dotenv.config();
@@ -79,6 +85,12 @@ app.post("/logout", (req, res) => {
     res.json({ success: true });
   });
 });
+
+// Mount API routes under a common prefix.  Using /api improves clarity and
+// allows versioning down the line (e.g., /api/v1).
+app.use("/api/posts", postsRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/messages", messagesRouter);
 
 app.listen(PORT, () =>
   console.log(`✅ Server running on http://localhost:${PORT}`)
